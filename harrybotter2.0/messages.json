@@ -1,0 +1,9 @@
+{
+    "active_session": "By Merlin's beard! You've already got an enchantment in progress. Please complete your current magical request before starting another.",
+    "stop_message": "Your spell has been cancelled. Feel free to visit the Chamber of Tech Support when you're ready to try again!", 
+    "cooldown_message": "Your magical energy is still recharging! Please wait {minutes} minutes and {seconds} seconds before casting another support spell.",
+    "session_timeout": "Oh no! Your magical connection has timed out. The spirits of Hogwarts request you try the spell again.",
+    "task_creation_success": "✨ Brilliant! ✨ Your magical scroll has been successfully delivered to the Ministry of Tech Support! You can [track its progress here]({task_url})",
+    "thank_you": "Thank you for consulting the Wizard of Tech Support! Our team of magical experts will review your scroll soon. Keep an eye on your owl post (DMs) for status updates!",
+    "sheet_error": "Alas! The magical ledger seems to be experiencing some enchantment interference. Please try again later or send an owl to an administrator."
+  }

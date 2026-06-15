@@ -1,0 +1,41 @@
+# Secrets & credentials
+.env
+.env.local
+*.env
+credentials.json
+*service_account*.json
+*-ops-*.json
+api_keys.json
+config_del.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# Node
+node_modules/
+dist/
+build/
+
+# Logs & data
+*.log
+*.db
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Chroma / vector DBs
+chroma_db/
+chroma_db_backup*/

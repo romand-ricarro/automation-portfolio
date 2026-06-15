@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "project": "InsightPulse",
+    "date": "2025-12-22",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "InsightPulse is a full-stack web application designed to analyze training survey data, leveraging AI to provide actionable insights. It integrates data import from Google Sheets, employs OpenAI GPT-4o for advanced analysis of open-ended feedback, and consolidates information to identify common issues and performance trends across training sessions.",
+  "core_goals": [
+    "Enable secure role-based user authentication and authorization to protect survey data.",
+    "Provide an intuitive dashboard summarizing key metrics and recent training sessions for quick insights.",
+    "Facilitate comprehensive session management including listing, viewing, searching, filtering, and editing training sessions with metadata and ratings.",
+    "Import and process survey response data directly from Google Sheets, automating rating averages and grouping by session.",
+    "Perform AI-powered analyses on open-ended survey questions to extract themes and generate common issue reports.",
+    "Enable detailed session ratings across multiple dimensions, such as overall quality and repeatability, to provide quantitative assessment.",
+    "Support creation, tracking, and management of actionable follow-up items with prioritization, deadlines, and responsible assignees.",
+    "Provide reports for facilitators that compare performance metrics across sessions to drive improvement.",
+    "Support theme toggling for user interface between dark and light mode, enhancing user accessibility and preference."
+  ],
+  "key_features": [
+    "Google OAuth authentication with JWT token management and role-based access control supporting admin, facilitator, and viewer roles.",
+    "Dashboard displaying total sessions, action items, average repeatability, and recent session activities.",
+    "Session management including CRUD operations, metadata tracking, rating metrics, and integrated AI analyses.",
+    "Import functionality fetching survey responses from Google Sheets using Google Sheets API and grouping data by session ID.",
+    "AI analysis powered by OpenAI GPT-4o to analyze open-ended questions and synthesize common issues tables.",
+    "Display of nine distinct session rating metrics such as overall quality, repeatability, among others.",
+    "Action item management with capabilities to create, edit, delete, and track priorities, status, assignees, and deadlines.",
+    "Reports feature for viewing facilitator performance and comparing session ratings over time.",
+    "User interface theme toggle for light and dark modes using a centralized theme context.",
+    "Reusable layout components including navbar, sidebar, and loading spinner to ensure consistent UI/UX.",
+    "Robust API communication layer using Axios with JWT authorization header injection for secure backend calls.",
+    "Relational database models for users, sessions, session ratings, question analyses, common issues, and action items implemented with SQLAlchemy and PostgreSQL."
+  ],
+  "user_flow_summary": [
+    "User logs in via Google OAuth; system verifies identity and assigns role with JWT token for secured session management.",
+    "Upon login, user is directed to the dashboard showing aggregated statistics and recent sessions.",
+    "User views the sessions list, uses search and filters to find specific training sessions, and views detailed session pages with rating metrics and AI analyses.",
+    "User imports survey responses by providing a Google Sheets spreadsheet ID; backend fetches data, processes it, and updates session and analysis records.",
+    "AI service analyzes survey open-ended responses question by question, stores analysis, and synthesizes common issues to be displayed in session details.",
+    "Users with appropriate roles create, update, and manage action items linked to sessions to track improvement tasks.",
+    "Facilitators and admins access reports section to analyze facilitator performance metrics and compare session data.",
+    "Users toggle between light and dark themes as per preference for the UI.",
+    "Admin users manage user roles and have full CRUD operations on all data including sessions and action items."
+  ],
+  "validation_criteria": [
+    "Authentication flow correctly enforces role-based access controls preventing unauthorized data access.",
+    "Dashboard correctly aggregates and displays up-to-date statistics for sessions and action items.",
+    "Session CRUD operations function correctly with data persisting and updating as expected.",
+    "Google Sheets import successfully fetches and processes survey data automatically grouping and averaging ratings.",
+    "AI analysis endpoints return coherent thematic analyses consistent with the input survey data.",
+    "Session ratings display accurate calculations across all nine specified metrics.",
+    "Action item management supports full lifecycle operations with appropriate validations on status, priority, deadlines, and assignees.",
+    "Reports display facilitator performance metrics and session comparisons accurately reflecting underlying data.",
+    "Theme toggle persists user preference and switches UI styles without visual or functional issues.",
+    "API requests consistently include JWT tokens and handle errors gracefully.",
+    "Database schema aligns with defined SQLAlchemy models with migrations applying successfully."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "React 19",
+      "Vite",
+      "Tailwind CSS",
+      "React Router v7",
+      "Axios",
+      "Supabase Auth",
+      "Python 3.9+",
+      "Flask 3.0",
+      "SQLAlchemy",
+      "PostgreSQL",
+      "OpenAI GPT-4o",
+      "Google Sheets API"
+    ],
+    "features": [
+      {
+        "name": "Authentication",
+        "description": "Google OAuth login via Supabase with JWT token management and role-based access control (admin/facilitator/viewer)",
+        "files": [
+          "frontend/src/components/auth/Login.tsx",
+          "frontend/src/contexts/AuthContext.tsx",
+          "frontend/src/components/common/PrivateRoute.tsx",
+          "backend/services/auth_service.py",
+          "backend/api/users.py"
+        ]
+      },
+      {
+        "name": "Dashboard",
+        "description": "Main dashboard displaying statistics (total sessions, action items, avg repeatability) and recent sessions list",
+        "files": [
+          "frontend/src/components/dashboard/Dashboard.tsx",
+          "backend/api/dashboard.py"
+        ]
+      },
+      {
+        "name": "Session Management",
+        "description": "List, view, search, filter and edit training sessions with metadata, ratings and AI analyses",
+        "files": [
+          "frontend/src/components/sessions/SessionList.tsx",
+          "frontend/src/components/sessions/SessionDetail.tsx",
+          "backend/api/sessions.py",
+          "backend/models/database.py"
+        ]
+      },
+      {
+        "name": "Google Sheets Import",
+        "description": "Import survey responses from Google Sheets, group by session_id, calculate averaged ratings",
+        "files": [
+          "backend/services/google_sheets_service.py",
+          "backend/api/sessions.py"
+        ]
+      },
+      {
+        "name": "AI Analysis",
+        "description": "GPT-4o analysis of open-ended survey questions to identify themes and generate common issues table",
+        "files": [
+          "backend/services/openai_service.py",
+          "backend/api/sessions.py",
+          "frontend/src/components/analyses/QuestionAnalyses.tsx",
+          "frontend/src/components/analyses/CommonIssuesTable.tsx"
+        ]
+      },
+      {
+        "name": "Session Ratings",
+        "description": "Display and calculate 9 rating metrics per session (Overall Quality, Repeatability, etc.)",
+        "files": [
+          "frontend/src/components/sessions/SessionDetail.tsx",
+          "backend/api/analyses.py",
+          "backend/models/database.py"
+        ]
+      },
+      {
+        "name": "Action Items",
+        "description": "Create, edit, delete and track action items with priority, status, assignee and deadline",
+        "files": [
+          "frontend/src/components/actionItems/ActionItemsList.tsx",
+          "frontend/src/components/actionItems/ActionItemForm.tsx",
+          "backend/api/action_items.py"
+        ]
+      },
+      {
+        "name": "Reports",
+        "description": "View facilitator performance metrics and compare ratings across sessions",
+        "files": [
+          "frontend/src/components/reports/Reports.tsx",
+          "backend/api/dashboard.py"
+        ]
+      },
+      {
+        "name": "Theme Toggle",
+        "description": "Dark mode toggle with theme context for light/dark mode switching",
+        "files": [
+          "frontend/src/contexts/ThemeContext.tsx",
+          "frontend/src/components/common/DarkModeToggle.tsx"
+        ]
+      },
+      {
+        "name": "Layout Components",
+        "description": "Common UI components including navbar, sidebar, and layout wrapper",
+        "files": [
+          "frontend/src/components/common/Layout.tsx",
+          "frontend/src/components/common/Navbar.tsx",
+          "frontend/src/components/common/Sidebar.tsx",
+          "frontend/src/components/common/LoadingSpinner.tsx"
+        ]
+      },
+      {
+        "name": "API Service",
+        "description": "Axios-based API client with JWT token injection for backend communication",
+        "files": [
+          "frontend/src/services/api.ts",
+          "frontend/src/services/supabase.ts"
+        ]
+      },
+      {
+        "name": "Database Models",
+        "description": "SQLAlchemy models for User, Session, QuestionAnalysis, CommonIssue, ActionItem, SessionRating",
+        "files": ["backend/models/database.py"]
+      }
+    ]
+  }
+}

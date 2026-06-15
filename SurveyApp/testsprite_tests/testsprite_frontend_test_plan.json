@@ -1,0 +1,497 @@
+[
+  {
+    "id": "TC001",
+    "title": "Google OAuth Login Success",
+    "description": "Verify that users can log in successfully via Google OAuth and receive a valid JWT token with the correct user role assigned.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Click on the Google OAuth login button."
+      },
+      {
+        "type": "action",
+        "description": "Authenticate using valid Google credentials linked to a user account."
+      },
+      {
+        "type": "assertion",
+        "description": "User is redirected to the dashboard page."
+      },
+      {
+        "type": "assertion",
+        "description": "JWT token is received and stored for session management."
+      },
+      {
+        "type": "assertion",
+        "description": "User role (admin/facilitator/viewer) is assigned correctly based on user data."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Google OAuth Login Failure",
+    "description": "Verify that login fails with invalid or revoked Google OAuth credentials and appropriate error message is shown.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Click on the Google OAuth login button."
+      },
+      {
+        "type": "action",
+        "description": "Attempt login using invalid or revoked Google credentials."
+      },
+      {
+        "type": "assertion",
+        "description": "Login fails and user remains on login page."
+      },
+      {
+        "type": "assertion",
+        "description": "An appropriate error message indicating login failure is displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Role-based Access Control Enforcement",
+    "description": "Verify that role-based access control restricts unauthorized access to protected resources based on user roles.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as a viewer role user."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access admin-only pages or perform admin-only actions."
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied with a proper error or redirect to unauthorized message."
+      },
+      {
+        "type": "action",
+        "description": "Repeat test logging in as facilitator and attempting admin-only actions."
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied for unauthorized actions accordingly."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Dashboard Statistics Accuracy",
+    "description": "Verify that the dashboard displays accurate statistics including total sessions, action items, average repeatability, and recent session activities.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as a user with valid data available."
+      },
+      {
+        "type": "assertion",
+        "description": "Dashboard shows correct total number of sessions."
+      },
+      {
+        "type": "assertion",
+        "description": "Dashboard shows correct total number of action items."
+      },
+      {
+        "type": "assertion",
+        "description": "Average repeatability metric is correctly calculated and displayed."
+      },
+      {
+        "type": "assertion",
+        "description": "Recent sessions list displays the latest sessions correctly sorted."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Session CRUD Operations",
+    "description": "Verify the full lifecycle of session management including creating, reading, updating, searching/filtering, and deleting sessions with metadata and rating metrics.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to sessions list page."
+      },
+      {
+        "type": "action",
+        "description": "Create a new session with required metadata and ratings."
+      },
+      {
+        "type": "assertion",
+        "description": "New session appears in the session list with correct data."
+      },
+      {
+        "type": "action",
+        "description": "Use search and filter features to find the newly created session."
+      },
+      {
+        "type": "assertion",
+        "description": "Session is correctly found and details shown."
+      },
+      {
+        "type": "action",
+        "description": "Edit session metadata and rating metrics."
+      },
+      {
+        "type": "assertion",
+        "description": "Changes are saved and reflected correctly in session details and list."
+      },
+      {
+        "type": "action",
+        "description": "Delete the created session."
+      },
+      {
+        "type": "assertion",
+        "description": "Session is removed from the list and database."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Google Sheets Survey Response Import",
+    "description": "Verify the import functionality correctly fetches survey response data from Google Sheets API, groups responses by session ID, and calculates average ratings automatically.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Provide a valid Google Sheets spreadsheet ID with survey response data."
+      },
+      {
+        "type": "action",
+        "description": "Trigger the import process via the application UI."
+      },
+      {
+        "type": "assertion",
+        "description": "Data is fetched from Google Sheets API successfully with no errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Responses are grouped correctly by session ID in backend."
+      },
+      {
+        "type": "assertion",
+        "description": "Session rating averages are calculated accurately from the imported data."
+      },
+      {
+        "type": "assertion",
+        "description": "Imported sessions and their rating metrics are updated or created in the database."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "AI-powered Open-ended Question Analysis",
+    "description": "Verify that the AI analysis service processes open-ended survey questions using GPT-4o and generates thematic analyses and common issues tables consistent with input data.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Import survey response data containing open-ended questions."
+      },
+      {
+        "type": "action",
+        "description": "Trigger AI analysis for one or more sessions via the application."
+      },
+      {
+        "type": "assertion",
+        "description": "API calls to OpenAI GPT-4o are successfully made with correct input data."
+      },
+      {
+        "type": "assertion",
+        "description": "Thematic analyses are generated and stored in the database."
+      },
+      {
+        "type": "assertion",
+        "description": "Common issues tables display synthesized information based on AI output on session detail pages."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Session Ratings Calculation and Display",
+    "description": "Verify the correct calculation and display of nine distinct session rating metrics including overall quality and repeatability on session detail views.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to a session detail page with existing rating data."
+      },
+      {
+        "type": "assertion",
+        "description": "All nine rating metrics are displayed clearly and correctly labeled."
+      },
+      {
+        "type": "assertion",
+        "description": "Displayed rating values correspond to expected averaged or input values from data."
+      },
+      {
+        "type": "action",
+        "description": "Update rating metrics for the session."
+      },
+      {
+        "type": "assertion",
+        "description": "Ratings update successfully and persist after page reload."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Action Item Lifecycle Management",
+    "description": "Verify the creation, editing, deletion, and tracking of action items including validations on priority, status, deadlines, and responsible assignees.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the action items management section."
+      },
+      {
+        "type": "action",
+        "description": "Create an action item associated with a session, setting priority, status, deadline, and assignee."
+      },
+      {
+        "type": "assertion",
+        "description": "Action item is created and listed with correct details."
+      },
+      {
+        "type": "action",
+        "description": "Edit the action item to modify priority, status, deadline, and assignee."
+      },
+      {
+        "type": "assertion",
+        "description": "Edits are saved and correctly reflected in the action items list."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to create or edit an action item with invalid or missing required fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Appropriate validation errors are shown preventing the operation."
+      },
+      {
+        "type": "action",
+        "description": "Delete an existing action item."
+      },
+      {
+        "type": "assertion",
+        "description": "Action item is removed from the list and database."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Facilitator Performance Reports Accuracy",
+    "description": "Verify reports display accurate facilitator performance metrics and allow comparisons of session ratings over time.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the reports section as a facilitator or admin."
+      },
+      {
+        "type": "assertion",
+        "description": "Facilitator performance metrics are displayed with correct data from sessions."
+      },
+      {
+        "type": "action",
+        "description": "Select multiple sessions or apply filters to compare ratings across sessions."
+      },
+      {
+        "type": "assertion",
+        "description": "Comparative metrics update correctly to reflect chosen sessions."
+      },
+      {
+        "type": "assertion",
+        "description": "Reports match underlying session and rating data accurately."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Theme Toggle Persistence and Functionality",
+    "description": "Verify the UI theme toggle switches correctly between light and dark modes and persists user preference across sessions.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Locate and use the theme toggle control in the application UI."
+      },
+      {
+        "type": "action",
+        "description": "Toggle from light to dark mode and vice versa."
+      },
+      {
+        "type": "assertion",
+        "description": "UI styling updates immediately and consistently across all components."
+      },
+      {
+        "type": "action",
+        "description": "Reload or close and reopen the browser/session."
+      },
+      {
+        "type": "assertion",
+        "description": "Previously selected theme mode persists and UI renders accordingly."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "API JWT Injection and Error Handling",
+    "description": "Verify that API requests include JWT tokens in headers for authorization and handle error responses gracefully with proper messaging.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform an authenticated API call to a protected endpoint."
+      },
+      {
+        "type": "assertion",
+        "description": "JWT token is included in the Authorization header of the API request."
+      },
+      {
+        "type": "action",
+        "description": "Simulate API call failure due to expired or invalid token."
+      },
+      {
+        "type": "assertion",
+        "description": "Application redirects to login or displays an informed error message to the user."
+      },
+      {
+        "type": "action",
+        "description": "Simulate network or server error for an API call."
+      },
+      {
+        "type": "assertion",
+        "description": "Application handles the error gracefully with retry options or user notifications."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Database Schema and Migration Consistency",
+    "description": "Verify the database schema aligns with SQLAlchemy models and migrations apply successfully without data loss or errors.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Apply latest database migrations in a test environment."
+      },
+      {
+        "type": "assertion",
+        "description": "Migrations complete successfully without errors."
+      },
+      {
+        "type": "action",
+        "description": "Validate existence of tables: User, Session, SessionRating, QuestionAnalysis, CommonIssue, ActionItem."
+      },
+      {
+        "type": "assertion",
+        "description": "Database structure matches defined models with correct relationships and constraints."
+      },
+      {
+        "type": "action",
+        "description": "Perform basic CRUD operations on each model to confirm schema integrity."
+      },
+      {
+        "type": "assertion",
+        "description": "Data manipulations persist correctly and constraints are enforced."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Session Search and Filtering",
+    "description": "Verify search and filtering features on the session list page work correctly with various inputs and edge cases.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the sessions list page with multiple sessions available."
+      },
+      {
+        "type": "action",
+        "description": "Use search bar to find sessions by name using exact and partial matches."
+      },
+      {
+        "type": "assertion",
+        "description": "Search results correctly display matching sessions."
+      },
+      {
+        "type": "action",
+        "description": "Apply different filters such as date range, rating thresholds, or metadata criteria."
+      },
+      {
+        "type": "assertion",
+        "description": "Filtered results update accordingly reflecting the applied filters."
+      },
+      {
+        "type": "action",
+        "description": "Attempt searches with special characters or empty queries."
+      },
+      {
+        "type": "assertion",
+        "description": "Application handles edge cases gracefully without errors or crashes."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Layout Components Consistency",
+    "description": "Verify navbar, sidebar, and loading spinner components render consistently across all pages and respond correctly to user interactions.",
+    "category": "ui",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate across multiple application pages."
+      },
+      {
+        "type": "assertion",
+        "description": "Navbar and sidebar appear consistently and contain expected links and controls."
+      },
+      {
+        "type": "action",
+        "description": "Trigger data loading scenarios to display the loading spinner."
+      },
+      {
+        "type": "assertion",
+        "description": "Loading spinner displays appropriately during loading phases and hides afterward."
+      },
+      {
+        "type": "action",
+        "description": "Interact with navigation links in navbar and sidebar."
+      },
+      {
+        "type": "assertion",
+        "description": "Navigation occurs correctly and UI updates as expected."
+      }
+    ]
+  }
+]

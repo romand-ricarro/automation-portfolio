@@ -1,0 +1,162 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React 19",
+    "Vite 7",
+    "Tailwind CSS 4",
+    "Google OAuth",
+    "Python 3.13",
+    "Flask 3.1",
+    "Jira API",
+    "LibSQL",
+    "SendGrid",
+    "Lucide Icons"
+  ],
+  "features": [
+    {
+      "name": "Google OAuth Authentication",
+      "description": "User authentication using Google OAuth 2.0 with role-based access control (user, sqa, admin)",
+      "files": [
+        "frontend/src/context/AuthContext.tsx",
+        "frontend/src/hooks/useAuth.ts",
+        "frontend/src/components/ProtectedRoute.tsx",
+        "backend/api/routes/auth.py",
+        "backend/api/utils/auth.py"
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "description": "Landing page with quick actions to create bugs, tasks, stories and recent issues widget",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/issues/DashboardIssueList.tsx"
+      ]
+    },
+    {
+      "name": "Issue Creation Modal",
+      "description": "Modal dialog for creating new Jira issues with form validation and toast notifications",
+      "files": [
+        "frontend/src/components/issues/CreateIssueModal.tsx",
+        "backend/api/routes/issues.py"
+      ]
+    },
+    {
+      "name": "Issues List & Filtering",
+      "description": "Paginated issue list with filtering by status, priority, type, reporter, and search",
+      "files": [
+        "frontend/src/pages/Issues.tsx",
+        "frontend/src/components/issues/IssueList.tsx",
+        "frontend/src/components/issues/FilterBar.tsx",
+        "frontend/src/components/issues/SearchBar.tsx",
+        "frontend/src/components/issues/Pagination.tsx",
+        "backend/api/routes/issues.py",
+        "backend/api/services/jira_service.py"
+      ]
+    },
+    {
+      "name": "Issue Detail View",
+      "description": "Detailed view of individual issues with comments, attachments, activity timeline, and status updates",
+      "files": [
+        "frontend/src/pages/IssueDetail.tsx",
+        "frontend/src/components/issues/CommentList.tsx",
+        "frontend/src/components/issues/CommentForm.tsx",
+        "frontend/src/components/issues/ActivityTimeline.tsx",
+        "frontend/src/components/issues/StatusDropdown.tsx",
+        "frontend/src/components/issues/PriorityDropdown.tsx",
+        "backend/api/routes/issues.py"
+      ]
+    },
+    {
+      "name": "Jira Integration",
+      "description": "Backend service for interacting with Jira API to create, update, fetch issues and manage attachments",
+      "files": [
+        "backend/api/services/jira_service.py",
+        "backend/api/utils/template_builder.py"
+      ]
+    },
+    {
+      "name": "Email Notifications",
+      "description": "SendGrid-based email notifications for issue creation, status changes, and new comments",
+      "files": [
+        "backend/api/services/email_service.py"
+      ]
+    },
+    {
+      "name": "Bulk Status Updates",
+      "description": "Bulk update status for multiple issues (SQA and Admin only)",
+      "files": [
+        "frontend/src/components/issues/BulkActionBar.tsx",
+        "backend/api/routes/issues.py"
+      ]
+    },
+    {
+      "name": "User Profile & Preferences",
+      "description": "User profile page with notification preferences and theme settings",
+      "files": [
+        "frontend/src/pages/Profile.tsx",
+        "backend/api/routes/auth.py"
+      ]
+    },
+    {
+      "name": "Admin Settings",
+      "description": "Admin page for managing user roles and system settings",
+      "files": [
+        "frontend/src/pages/AdminSettings.tsx",
+        "backend/api/routes/auth.py",
+        "backend/api/utils/database.py"
+      ]
+    },
+    {
+      "name": "Toast Notifications",
+      "description": "User feedback system with toast notifications for success, error, and info messages",
+      "files": [
+        "frontend/src/components/Toast.tsx",
+        "frontend/src/lib/toast.ts"
+      ]
+    },
+    {
+      "name": "Theme Management",
+      "description": "Dark/light theme support with system preference detection",
+      "files": [
+        "frontend/src/hooks/useTheme.ts"
+      ]
+    },
+    {
+      "name": "Navigation & Routing",
+      "description": "Client-side routing with protected routes and navigation",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Navbar.tsx",
+        "frontend/src/components/MainLayout.tsx"
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "description": "Error boundary component for graceful error handling",
+      "files": [
+        "frontend/src/components/ErrorBoundary.tsx"
+      ]
+    },
+    {
+      "name": "Database Management",
+      "description": "LibSQL database utilities for user management, preferences, and activity logging",
+      "files": [
+        "backend/api/utils/database.py"
+      ]
+    },
+    {
+      "name": "API Client",
+      "description": "Frontend API client for communicating with backend services",
+      "files": [
+        "frontend/src/lib/api.ts"
+      ]
+    },
+    {
+      "name": "Type Definitions",
+      "description": "TypeScript type definitions for issues, users, comments, and API responses",
+      "files": [
+        "frontend/src/types/index.ts"
+      ]
+    }
+  ]
+}

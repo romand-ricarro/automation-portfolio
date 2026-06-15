@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-deep-bg dark:text-gray-100 transition-colors duration-200;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* High-contrast dark mode focus on extremes */
+  .dark {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  /* Bento Card Component */
+  .bento-card {
+    @apply bg-white dark:bg-surface border border-gray-200 dark:border-white/5 rounded-bento-lg shadow-sm dark:shadow-bento transition-all duration-300;
+  }
+
+  .bento-card:hover {
+    @apply transform -translate-y-0.5 shadow-md dark:shadow-glow-primary;
+  }
+
+  /* Primary Gradient Button */
+  .btn-gradient {
+    @apply bg-gradient-pulse text-white font-semibold px-4 py-2 rounded-bento transition-all duration-300 shadow-lg shadow-primary/25;
+  }
+
+  .btn-gradient:hover {
+    @apply bg-gradient-pulse-hover transform -translate-y-0.5 shadow-xl shadow-primary/30;
+  }
+
+  .btn-gradient:disabled {
+    @apply opacity-50 cursor-not-allowed transform-none;
+  }
+
+  /* Glassmorphism Sidebar */
+  .glass-sidebar {
+    @apply backdrop-blur-md bg-white/80 dark:bg-slate-950/50 border-r border-gray-200 dark:border-white/5;
+  }
+
+  /* Metric Display */
+  .metric-value {
+    @apply text-3xl font-black tracking-tight text-gray-900 dark:text-white;
+  }
+
+  .metric-label {
+    @apply text-sm font-medium text-gray-500 dark:text-gray-400 tracking-tight;
+  }
+
+  /* Status badges with glow */
+  .badge-success {
+    @apply bg-success/10 text-success border border-success/20 dark:shadow-glow-success;
+  }
+
+  .badge-warning {
+    @apply bg-warning/10 text-warning border border-warning/20;
+  }
+
+  .badge-error {
+    @apply bg-error/10 text-error border border-error/20;
+  }
+
+  /* Progress bar with gradient */
+  .progress-bar {
+    @apply h-2 rounded-full bg-gray-200 dark:bg-surface-elevated overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full bg-gradient-pulse transition-all duration-500;
+  }
+
+  /* Nav link active state with gradient */
+  .nav-link-active {
+    @apply bg-gradient-to-r from-primary/10 to-accent/10 text-primary dark:text-primary-light border-l-2 border-primary;
+  }
+}
+
+@layer utilities {
+  /* Animate page entrance */
+  .animate-page-enter {
+    @apply animate-fade-in animate-slide-up;
+  }
+
+  /* Glow text effect */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  }
+}

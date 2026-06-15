@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Relay Tracker{% endblock %}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f3f4f6; -webkit-font-smoothing: antialiased;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+        <!-- Header with Relay Branding -->
+        <div style="background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); padding: 32px; border-radius: 16px 16px 0 0; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Relay Tracker</h1>
+            <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 14px;">{% block header_subtitle %}Issue Notification{% endblock %}</p>
+        </div>
+
+        <!-- Main Content -->
+        <div style="background: white; padding: 32px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            {% block content %}{% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 24px 0;">
+            <p style="color: #9ca3af; font-size: 12px; margin: 0 0 8px 0;">
+                Relay Tracker • Fast track from report to resolution
+            </p>
+            <p style="color: #9ca3af; font-size: 11px; margin: 0;">
+                You're receiving this because you're subscribed to issue notifications.
+                <br>
+                <a href="{{ app_url }}/profile" style="color: #f97316; text-decoration: none;">Manage notification preferences</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

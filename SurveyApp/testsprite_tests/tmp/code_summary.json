@@ -1,0 +1,125 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React 19",
+    "Vite",
+    "Tailwind CSS",
+    "React Router v7",
+    "Axios",
+    "Supabase Auth",
+    "Python 3.9+",
+    "Flask 3.0",
+    "SQLAlchemy",
+    "PostgreSQL",
+    "OpenAI GPT-4o",
+    "Google Sheets API"
+  ],
+  "features": [
+    {
+      "name": "Authentication",
+      "description": "Google OAuth login via Supabase with JWT token management and role-based access control (admin/facilitator/viewer)",
+      "files": [
+        "frontend/src/components/auth/Login.tsx",
+        "frontend/src/contexts/AuthContext.tsx",
+        "frontend/src/components/common/PrivateRoute.tsx",
+        "backend/services/auth_service.py",
+        "backend/api/users.py"
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "description": "Main dashboard displaying statistics (total sessions, action items, avg repeatability) and recent sessions list",
+      "files": [
+        "frontend/src/components/dashboard/Dashboard.tsx",
+        "backend/api/dashboard.py"
+      ]
+    },
+    {
+      "name": "Session Management",
+      "description": "List, view, search, filter and edit training sessions with metadata, ratings and AI analyses",
+      "files": [
+        "frontend/src/components/sessions/SessionList.tsx",
+        "frontend/src/components/sessions/SessionDetail.tsx",
+        "backend/api/sessions.py",
+        "backend/models/database.py"
+      ]
+    },
+    {
+      "name": "Google Sheets Import",
+      "description": "Import survey responses from Google Sheets, group by session_id, calculate averaged ratings",
+      "files": [
+        "backend/services/google_sheets_service.py",
+        "backend/api/sessions.py"
+      ]
+    },
+    {
+      "name": "AI Analysis",
+      "description": "GPT-4o analysis of open-ended survey questions to identify themes and generate common issues table",
+      "files": [
+        "backend/services/openai_service.py",
+        "backend/api/sessions.py",
+        "frontend/src/components/analyses/QuestionAnalyses.tsx",
+        "frontend/src/components/analyses/CommonIssuesTable.tsx"
+      ]
+    },
+    {
+      "name": "Session Ratings",
+      "description": "Display and calculate 9 rating metrics per session (Overall Quality, Repeatability, etc.)",
+      "files": [
+        "frontend/src/components/sessions/SessionDetail.tsx",
+        "backend/api/analyses.py",
+        "backend/models/database.py"
+      ]
+    },
+    {
+      "name": "Action Items",
+      "description": "Create, edit, delete and track action items with priority, status, assignee and deadline",
+      "files": [
+        "frontend/src/components/actionItems/ActionItemsList.tsx",
+        "frontend/src/components/actionItems/ActionItemForm.tsx",
+        "backend/api/action_items.py"
+      ]
+    },
+    {
+      "name": "Reports",
+      "description": "View facilitator performance metrics and compare ratings across sessions",
+      "files": [
+        "frontend/src/components/reports/Reports.tsx",
+        "backend/api/dashboard.py"
+      ]
+    },
+    {
+      "name": "Theme Toggle",
+      "description": "Dark mode toggle with theme context for light/dark mode switching",
+      "files": [
+        "frontend/src/contexts/ThemeContext.tsx",
+        "frontend/src/components/common/DarkModeToggle.tsx"
+      ]
+    },
+    {
+      "name": "Layout Components",
+      "description": "Common UI components including navbar, sidebar, and layout wrapper",
+      "files": [
+        "frontend/src/components/common/Layout.tsx",
+        "frontend/src/components/common/Navbar.tsx",
+        "frontend/src/components/common/Sidebar.tsx",
+        "frontend/src/components/common/LoadingSpinner.tsx"
+      ]
+    },
+    {
+      "name": "API Service",
+      "description": "Axios-based API client with JWT token injection for backend communication",
+      "files": [
+        "frontend/src/services/api.ts",
+        "frontend/src/services/supabase.ts"
+      ]
+    },
+    {
+      "name": "Database Models",
+      "description": "SQLAlchemy models for User, Session, QuestionAnalysis, CommonIssue, ActionItem, SessionRating",
+      "files": [
+        "backend/models/database.py"
+      ]
+    }
+  ]
+}

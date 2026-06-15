@@ -1,0 +1,16 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "executionArgs": {
+    "projectName": "Relay-Tracker",
+    "projectPath": "/Users/romand/Documents/GitHub/Relay-Tracker",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-XwFlNFr3C7cQACVvGRrvcsu3Z_Ntzu0EsrDkTDooguZ-gVn3SoeGktLdRN7bf2kyEsX8NejTus3Tr2WXauTvZTTNvd9alp5ynGoyDQKLzgCdjIXd708MG3NavL8hfNygSe0"
+    }
+  },
+  "proxy": "http://8f699893-1796-4143-a853-37f65ad1fe57:3t2C6jBimcUwbn0FbrDHW1Y8gO3sh8Uc@tun.testsprite.com:8080"
+}

@@ -1,0 +1,57 @@
+{% extends "email/base.html" %}
+
+{% block title %}Status Update - {{ issue_key }}{% endblock %}
+{% block header_subtitle %}Issue Status Updated{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px;">
+    <h2 style="color: #111827; margin: 0 0 8px 0; font-size: 20px;">Your issue status has changed</h2>
+    <p style="color: #6b7280; margin: 0; font-size: 14px;">
+        There's been an update to one of your issues.
+    </p>
+</div>
+
+<!-- Status Change Card -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+    <!-- Issue Key -->
+    <div style="margin-bottom: 16px;">
+        <span style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); color: white; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;">
+            {{ issue_key }}
+        </span>
+    </div>
+
+    <!-- Summary -->
+    <h3 style="color: #111827; margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">
+        {{ summary }}
+    </h3>
+
+    <!-- Status Change -->
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="flex: 1; text-align: center; padding: 12px; background: white; border-radius: 8px; border: 1px solid #e5e7eb;">
+            <p style="color: #9ca3af; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase;">Previous</p>
+            <p style="color: #6b7280; font-size: 14px; font-weight: 500; margin: 0;">{{ old_status }}</p>
+        </div>
+        <div style="color: #9ca3af; font-size: 20px;">→</div>
+        <div style="flex: 1; text-align: center; padding: 12px; background: {% if new_status == 'Done' or new_status == 'Closed' %}#f0fdf4{% elif new_status == 'In Progress' %}#eff6ff{% else %}white{% endif %}; border-radius: 8px; border: 1px solid {% if new_status == 'Done' or new_status == 'Closed' %}#bbf7d0{% elif new_status == 'In Progress' %}#bfdbfe{% else %}#e5e7eb{% endif %};">
+            <p style="color: #9ca3af; font-size: 11px; margin: 0 0 4px 0; text-transform: uppercase;">Current</p>
+            <p style="color: {% if new_status == 'Done' or new_status == 'Closed' %}#166534{% elif new_status == 'In Progress' %}#1d4ed8{% else %}#374151{% endif %}; font-size: 14px; font-weight: 600; margin: 0;">{{ new_status }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Button -->
+<div style="text-align: center;">
+    <a href="{{ issue_url }}" style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); color: white; font-size: 14px; font-weight: 600; padding: 12px 32px; border-radius: 8px; text-decoration: none;">
+        View Issue Details
+    </a>
+</div>
+
+{% if new_status == 'Done' or new_status == 'Closed' %}
+<!-- Resolution Message -->
+<div style="margin-top: 32px; padding: 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
+    <p style="color: #166534; margin: 0; font-size: 14px;">
+        <strong>Great news!</strong> This issue has been resolved. If you have any further questions or the issue persists, please reopen or create a new issue.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

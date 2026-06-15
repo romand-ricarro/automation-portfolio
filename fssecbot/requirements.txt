@@ -1,0 +1,7 @@
+# requirements.txt
+
+discord.py
+gspread
+oauth2client
+flask
+python-dotenv

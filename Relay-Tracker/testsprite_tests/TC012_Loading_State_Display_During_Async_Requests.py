@@ -1,0 +1,96 @@
+import asyncio
+from playwright import async_api
+from playwright.async_api import expect
+
+async def run_test():
+    pw = None
+    browser = None
+    context = None
+    
+    try:
+        # Start a Playwright session in asynchronous mode
+        pw = await async_api.async_playwright().start()
+        
+        # Launch a Chromium browser in headless mode with custom arguments
+        browser = await pw.chromium.launch(
+            headless=True,
+            args=[
+                "--window-size=1280,720",         # Set the browser window size
+                "--disable-dev-shm-usage",        # Avoid using /dev/shm which can cause issues in containers
+                "--ipc=host",                     # Use host-level IPC for better stability
+                "--single-process"                # Run the browser in a single process mode
+            ],
+        )
+        
+        # Create a new browser context (like an incognito window)
+        context = await browser.new_context()
+        context.set_default_timeout(5000)
+        
+        # Open a new page in the browser context
+        page = await context.new_page()
+        
+        # Navigate to your target URL and wait until the network request is committed
+        await page.goto("http://localhost:5173", wait_until="commit", timeout=10000)
+        
+        # Wait for the main page to reach DOMContentLoaded state (optional for stability)
+        try:
+            await page.wait_for_load_state("domcontentloaded", timeout=3000)
+        except async_api.Error:
+            pass
+        
+        # Iterate through all iframes and wait for them to load as well
+        for frame in page.frames:
+            try:
+                await frame.wait_for_load_state("domcontentloaded", timeout=3000)
+            except async_api.Error:
+                pass
+        
+        # Interact with the page elements to simulate user flow
+        # -> Look for any UI element or navigation to trigger an asynchronous operation that shows loading state components.
+        await page.mouse.wheel(0, await page.evaluate('() => window.innerHeight'))
+        
+
+        # -> Try to open the main menu or navigation bar if any, or try to open developer console to check network calls or try to reload the page to see if loading states appear.
+        await page.mouse.wheel(0, -await page.evaluate('() => window.innerHeight'))
+        
+
+        # -> Try to navigate to a known route or page that might contain interactive elements related to the Google Login flow or dashboard to trigger loading states.
+        await page.goto('http://localhost:5173/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to reload the page or navigate to another known route that might have interactive elements to trigger loading states.
+        await page.goto('http://localhost:5173/dashboard', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to reload the page to see if loading states appear or try to open any hidden menus or developer tools to inspect network calls.
+        await page.goto('http://localhost:5173/dashboard', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to trigger an asynchronous operation by navigating to a different page or interacting with any visible UI elements if found.
+        await page.goto('http://localhost:5173/settings', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to reload the page to see if loading states appear or try to open developer console or network tab to check for API calls.
+        await page.goto('http://localhost:5173/settings', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # --> Assertions to verify final state
+        frame = context.pages[-1]
+        await expect(frame.locator('text=Relay - Bug & Task Tracker').first).to_be_visible(timeout=30000)
+        await asyncio.sleep(5)
+    
+    finally:
+        if context:
+            await context.close()
+        if browser:
+            await browser.close()
+        if pw:
+            await pw.stop()
+            
+asyncio.run(run_test())
+    

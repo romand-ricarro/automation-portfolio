@@ -1,0 +1,17 @@
+{
+  "name": "insightpulse",
+  "version": "0.0.0",
+  "private": true,
+  "description": "InsightPulse - AI-powered training survey analysis platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FoodStyles-Tech-Tools/InsightPulse.git"
+  },
+  "scripts": {
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run"
+  },
+  "devDependencies": {
+    "semantic-release": "^24.2.0"
+  }
+}

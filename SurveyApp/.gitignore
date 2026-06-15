@@ -1,0 +1,60 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Service account keys
+foodstyles-ops-*.json
+credentials.json
+# We keep *.json commented out or removed so we don't ignore package.json
+# *.json 
+
+
+# Dependencies
+node_modules/
+jspm_packages/
+venv/
+env/
+.venv/
+bin/
+lib/
+share/
+Include/
+pyvenv.cfg
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.vercel
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+nohup.out
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Auto-generated (release notes live on GitHub Releases instead)
+CHANGELOG.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/

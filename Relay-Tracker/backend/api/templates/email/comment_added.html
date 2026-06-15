@@ -1,0 +1,44 @@
+{% extends "email/base.html" %}
+
+{% block title %}New Comment - {{ issue_key }}{% endblock %}
+{% block header_subtitle %}New Comment Added{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px;">
+    <h2 style="color: #111827; margin: 0 0 8px 0; font-size: 20px;">New comment on your issue</h2>
+    <p style="color: #6b7280; margin: 0; font-size: 14px;">
+        Someone has replied to one of your issues.
+    </p>
+</div>
+
+<!-- Issue Card -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+    <!-- Issue Key -->
+    <div style="margin-bottom: 12px;">
+        <span style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); color: white; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;">
+            {{ issue_key }}
+        </span>
+    </div>
+
+    <!-- Summary -->
+    <h3 style="color: #111827; margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">
+        {{ summary }}
+    </h3>
+
+    <!-- Comment Box -->
+    <div style="background: white; border: 1px solid #e5e7eb; border-left: 4px solid #f97316; border-radius: 8px; padding: 16px;">
+        <div style="margin-bottom: 8px;">
+            <span style="font-weight: 600; color: #374151; font-size: 14px;">{{ commenter_name }}</span>
+            <span style="color: #9ca3af; font-size: 12px; margin-left: 8px;">commented</span>
+        </div>
+        <p style="color: #4b5563; margin: 0; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">{{ comment_body[:500] }}{% if comment_body|length > 500 %}...{% endif %}</p>
+    </div>
+</div>
+
+<!-- CTA Button -->
+<div style="text-align: center;">
+    <a href="{{ issue_url }}" style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); color: white; font-size: 14px; font-weight: 600; padding: 12px 32px; border-radius: 8px; text-decoration: none;">
+        View Full Thread
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "verify_google_oauth_authentication_and_role_based_access_control",
+    "description": "Test the Google OAuth login flow via Supabase, ensuring JWT tokens are issued correctly and role-based access control is enforced for admin, facilitator, and viewer roles."
+  },
+  {
+    "id": "TC002",
+    "title": "validate_dashboard_statistics_and_recent_sessions_display",
+    "description": "Verify that the dashboard API correctly aggregates and returns total sessions, action items, average repeatability, and recent session activities."
+  },
+  {
+    "id": "TC003",
+    "title": "test_session_management_crud_and_search_filter_functionality",
+    "description": "Ensure session listing, viewing, searching, filtering, and editing APIs work correctly, persisting metadata, ratings, and AI analyses as expected."
+  },
+  {
+    "id": "TC004",
+    "title": "validate_google_sheets_import_and_data_processing",
+    "description": "Test the import API that fetches survey responses from Google Sheets, verifying data grouping by session ID and correct calculation of averaged ratings."
+  },
+  {
+    "id": "TC005",
+    "title": "verify_ai_analysis_of_open_ended_survey_questions",
+    "description": "Test the AI analysis endpoint that uses OpenAI GPT-4o to analyze open-ended survey questions and generate thematic analyses and common issues tables."
+  },
+  {
+    "id": "TC006",
+    "title": "validate_session_ratings_calculation_and_display",
+    "description": "Verify that the session ratings API returns accurate calculations for all nine rating metrics including overall quality and repeatability."
+  },
+  {
+    "id": "TC007",
+    "title": "test_action_item_lifecycle_management",
+    "description": "Ensure APIs for creating, editing, deleting, and tracking action items function correctly with validations on priority, status, assignee, and deadlines."
+  },
+  {
+    "id": "TC008",
+    "title": "validate_reports_facilitator_performance_and_session_comparisons",
+    "description": "Test the reports API to ensure facilitator performance metrics and session rating comparisons are accurate and reflect underlying data."
+  },
+  {
+    "id": "TC009",
+    "title": "verify_theme_toggle_persistence_and_ui_switching",
+    "description": "Test the theme toggle API or context to ensure user preferences for light and dark modes persist and UI switches without visual or functional issues."
+  },
+  {
+    "id": "TC010",
+    "title": "validate_api_requests_jwt_token_inclusion_and_error_handling",
+    "description": "Verify that all API requests include JWT tokens in headers and that the system handles authorization errors and other API errors gracefully."
+  }
+]

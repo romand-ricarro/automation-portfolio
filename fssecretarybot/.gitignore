@@ -1,0 +1,6 @@
+.env
+credentials.json
+discord_bot.log
+venv/
+__pycache__/
+*.pycpip install aiohttp
