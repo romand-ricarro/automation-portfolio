@@ -1,6 +1,6 @@
 # automation-portfolio
 
-A collection of automation projects built over time — Discord bots, API integrations, full-stack tools, and AI systems.
+Automation projects built over time — Discord bots, API integrations, full-stack tools, and AI systems.
 
 ## Projects
 
@@ -28,4 +28,4 @@ Each project has its own dependencies. Generally:
 - **Python projects**: `pip install -r requirements.txt`, copy `.env.example` to `.env` and fill in values
 - **Node.js projects**: `npm install`, copy `.env.example` to `.env` and fill in values
 
-Credentials and API keys are never committed — see each project's `.env.example` for required variables.
+See each project's `.env.example` for required variables.
