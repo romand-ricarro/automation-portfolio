@@ -1,0 +1,9 @@
+[project]
+name = "docs-rag-demo"
+version = "1.0.0"
+description = "Retrieval-augmented Q&A over public documents with a Streamlit UI."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

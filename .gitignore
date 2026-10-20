@@ -1,0 +1,58 @@
+# Environment files (only .env.example is committed)
+.env
+.env.*
+!.env.example
+*.env
+
+# Credentials and keys
+.credentials.json*
+credentials*.json
+*credentials*.json
+*service_account*.json
+*service-account*.json
+*-ops-*.json
+api_keys.json*
+.api_keys.json*
+secrets.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Data files (only small fake samples under sample-data/ and test fixtures are committed)
+*.csv
+*.tsv
+*.xlsx
+*.parquet
+*.db
+*.sqlite
+*.sqlite3
+docs-rag-demo/data/*
+!docs-rag-demo/data/.gitkeep
+chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+
+# Tooling and OS
+.vercel/
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.log

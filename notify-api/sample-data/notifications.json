@@ -1,0 +1,23 @@
+[
+  {
+    "channel": "email",
+    "recipient": "alex.rivera@example.com",
+    "subject": "Your appointment is confirmed",
+    "body": "Hi Alex, your visit is booked for Tuesday at 10:00.",
+    "metadata": { "kind": "booking_confirmation", "bookingId": "bk_001" }
+  },
+  {
+    "channel": "email",
+    "recipient": "jordan.lee@example.org",
+    "subject": "Your quote is ready",
+    "body": "Hi Jordan, your quote is attached. Reply with any questions.",
+    "metadata": { "kind": "quote_ready", "quoteId": "q_042" }
+  },
+  {
+    "channel": "email",
+    "recipient": "not-an-email",
+    "subject": "Invalid on purpose",
+    "body": "This one should be rejected with a 422.",
+    "metadata": {}
+  }
+]

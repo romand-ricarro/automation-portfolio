@@ -1,0 +1,11 @@
+{
+  "name": "lead-followup-n8n",
+  "version": "1.0.0",
+  "private": true,
+  "description": "n8n workflow: log inbound inquiries, send an instant reply, follow up on day 1, 3 and 7.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-workflow.mjs",
+    "test": "node scripts/build-workflow.mjs --check && node --test tests/*.test.mjs"
+  }
+}

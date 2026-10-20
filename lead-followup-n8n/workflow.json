@@ -1,0 +1,395 @@
+{
+  "name": "Lead follow-up (demo)",
+  "nodes": [
+    {
+      "id": "485361d8-c326-df88-324f-72e17b970d14",
+      "name": "New inquiry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-inquiry",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "7cf2b2a4-ad05-c6c7-16b7-f429e8ff8440"
+    },
+    {
+      "id": "f5514d0a-aafe-1ce2-a90f-0e117adea3b4",
+      "name": "Validate inquiry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Normalise the webhook body and reject inquiries without a name or a usable email.\nconst body = $input.first().json.body ?? {};\nconst clean = (value) => String(value ?? '').trim();\n\nconst inquiry = {\n  name: clean(body.name),\n  email: clean(body.email).toLowerCase(),\n  phone: clean(body.phone),\n  message: clean(body.message),\n  source: clean(body.source) || 'website',\n};\n\nconst errors = [];\nif (!inquiry.name) errors.push('name is required');\nif (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(inquiry.email)) errors.push('a valid email is required');\nif (inquiry.message.length > 5000) errors.push('message must be 5000 characters or fewer');\n\nreturn [{ json: { valid: errors.length === 0, errors, inquiry } }];\n"
+      }
+    },
+    {
+      "id": "5e2be9cc-8c43-32ae-fb4b-836156908440",
+      "name": "Is valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "9dc3e9b7-86ab-b789-c277-ca86610758e3",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "bfe88fc1-e196-d77b-f067-31282cd457a0",
+      "name": "Log inquiry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        -100
+      ],
+      "parameters": {
+        "jsCode": "// Store the inquiry in workflow static data and build the instant reply.\n// Static data only persists for production (active workflow) executions, not manual test runs.\nconst store = $getWorkflowStaticData('global');\nstore.inquiries = store.inquiries ?? {};\n\nconst business = $env.BUSINESS_NAME || 'Example Plumbing Co.';\nconst { inquiry } = $input.first().json;\nconst id = `inq_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;\n\nconst record = {\n  id,\n  ...inquiry,\n  receivedAt: new Date().toISOString(),\n  status: 'open',\n  followUps: {},\n};\nstore.inquiries[id] = record;\n\nconst notification = {\n  channel: 'email',\n  recipient: record.email,\n  subject: `Thanks for contacting ${business}`,\n  body: [\n    `Hi ${record.name},`,\n    '',\n    'Thanks for reaching out. We have your message and will reply within one business day.',\n    '',\n    `The ${business} team`,\n  ].join('\\n'),\n  metadata: { inquiryId: id, kind: 'instant_reply' },\n};\n\nreturn [{ json: { record, notification } }];\n"
+      }
+    },
+    {
+      "id": "788cda5d-436a-9e62-5a6e-3a6bee89b4c4",
+      "name": "Send instant reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NOTIFY_API_URL }}/v1/notifications",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.NOTIFY_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.notification) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "eb2ce68f-b335-3928-4048-7d7f8cbb5f5e",
+      "name": "Respond 201",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        -100
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, id: $('Log inquiry').first().json.record.id }) }}",
+        "options": {
+          "responseCode": 201
+        }
+      }
+    },
+    {
+      "id": "463ce49e-8c06-b381-ecf2-9632c5c77ed2",
+      "name": "Respond 400",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: false, errors: $json.errors }) }}",
+        "options": {
+          "responseCode": 400
+        }
+      }
+    },
+    {
+      "id": "f83b0419-01fd-3869-7fad-08ac1b431687",
+      "name": "Lead status update",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-status",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "ee9bb269-1372-0e61-c79e-e82073472250"
+    },
+    {
+      "id": "ae95cd57-44b5-d8ab-a5b4-53a1046205ad",
+      "name": "Apply status update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Mark an inquiry as replied or closed so no further follow-ups are sent.\nconst store = $getWorkflowStaticData('global');\nconst { id, status } = $input.first().json.body ?? {};\nconst allowed = ['open', 'replied', 'closed'];\nconst record = store.inquiries?.[id];\n\nif (!record) {\n  return [{ json: { ok: false, code: 404, error: 'unknown inquiry id' } }];\n}\nif (!allowed.includes(status)) {\n  return [{ json: { ok: false, code: 400, error: `status must be one of: ${allowed.join(', ')}` } }];\n}\n\nrecord.status = status;\nrecord.updatedAt = new Date().toISOString();\nreturn [{ json: { ok: true, code: 200, record } }];\n"
+      }
+    },
+    {
+      "id": "1a6e83c5-f239-c209-b67c-b89a5563aaf3",
+      "name": "Respond status",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": "={{ $json.code }}"
+        }
+      }
+    },
+    {
+      "id": "d58932aa-2054-0ac8-32ba-86ff31e3ca9f",
+      "name": "Every hour",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        550
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a5541efd-3f61-71e2-a76f-21c85ef6fd06",
+      "name": "Find due follow-ups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        550
+      ],
+      "parameters": {
+        "jsCode": "// Find open inquiries whose day 1, 3 or 7 follow-up is due.\n// If the workflow was paused and several are overdue, only the latest one is sent\n// and the older ones are marked as skipped, so a lead never gets a burst of emails.\nconst FOLLOW_UP_DAYS = [1, 3, 7];\nconst DAY_MS = 24 * 60 * 60 * 1000;\n\nconst store = $getWorkflowStaticData('global');\nconst business = $env.BUSINESS_NAME || 'Example Plumbing Co.';\nconst now = Date.now();\n\nconst templates = {\n  1: {\n    subject: `Following up on your request to ${business}`,\n    body: (name) => `Hi ${name},\\n\\nJust checking in on your request from yesterday. Reply to this email with a good time to call and we will get you booked in.\\n\\nThe ${business} team`,\n  },\n  3: {\n    subject: `Still need a hand? ${business}`,\n    body: (name) => `Hi ${name},\\n\\nWe have not heard back yet, so here is a reminder that we have openings this week. Reply any time and we will take it from there.\\n\\nThe ${business} team`,\n  },\n  7: {\n    subject: `Last check-in from ${business}`,\n    body: (name) => `Hi ${name},\\n\\nThis is our last follow-up. If you still need help, just reply and we will pick it up straight away.\\n\\nThe ${business} team`,\n  },\n};\n\nconst due = [];\nfor (const record of Object.values(store.inquiries ?? {})) {\n  if (record.status !== 'open') continue;\n\n  const age = now - Date.parse(record.receivedAt);\n  const dueDays = FOLLOW_UP_DAYS.filter((day) => age >= day * DAY_MS && !record.followUps[day]);\n  if (dueDays.length === 0) continue;\n\n  const day = dueDays[dueDays.length - 1];\n  for (const older of dueDays.slice(0, -1)) record.followUps[older] = 'skipped';\n\n  due.push({\n    json: {\n      channel: 'email',\n      recipient: record.email,\n      subject: templates[day].subject,\n      body: templates[day].body(record.name),\n      metadata: { inquiryId: record.id, kind: 'follow_up', day },\n    },\n  });\n}\n\nreturn due;\n"
+      }
+    },
+    {
+      "id": "8739e62b-9822-4f68-7d0a-0f8555b8eca8",
+      "name": "Send follow-up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        550
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NOTIFY_API_URL }}/v1/notifications",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{ $env.NOTIFY_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "127e93b5-33af-0575-5a86-5a90245cbbc9",
+      "name": "Mark follow-up sent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        550
+      ],
+      "parameters": {
+        "jsCode": "// Record which follow-ups were sent. The notification API echoes back the\n// metadata it was given, which tells us the inquiry id and follow-up day.\nconst store = $getWorkflowStaticData('global');\nconst sentAt = new Date().toISOString();\n\nfor (const item of $input.all()) {\n  const { inquiryId, day } = item.json.metadata ?? {};\n  const record = store.inquiries?.[inquiryId];\n  if (record && day) record.followUps[day] = sentAt;\n}\n\nreturn $input.all();\n"
+      }
+    }
+  ],
+  "connections": {
+    "New inquiry": {
+      "main": [
+        [
+          {
+            "node": "Validate inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate inquiry": {
+      "main": [
+        [
+          {
+            "node": "Is valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is valid?": {
+      "main": [
+        [
+          {
+            "node": "Log inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond 400",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log inquiry": {
+      "main": [
+        [
+          {
+            "node": "Send instant reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send instant reply": {
+      "main": [
+        [
+          {
+            "node": "Respond 201",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead status update": {
+      "main": [
+        [
+          {
+            "node": "Apply status update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply status update": {
+      "main": [
+        [
+          {
+            "node": "Respond status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every hour": {
+      "main": [
+        [
+          {
+            "node": "Find due follow-ups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find due follow-ups": {
+      "main": [
+        [
+          {
+            "node": "Send follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send follow-up": {
+      "main": [
+        [
+          {
+            "node": "Mark follow-up sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "active": false,
+  "tags": []
+}

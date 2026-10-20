@@ -1,0 +1,16 @@
+# Local n8n for trying the workflow. Pin the image to a version you have tested.
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    env_file: .env
+    environment:
+      # The workflow reads NOTIFY_API_URL, NOTIFY_API_KEY and BUSINESS_NAME via $env.
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - GENERIC_TIMEZONE=UTC
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:

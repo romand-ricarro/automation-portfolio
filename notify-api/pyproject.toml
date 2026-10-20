@@ -1,0 +1,9 @@
+[project]
+name = "notify-api"
+version = "1.0.0"
+description = "Small FastAPI notification service with API-key management and rate limiting."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

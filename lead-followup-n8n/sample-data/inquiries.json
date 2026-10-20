@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Alex Rivera",
+    "email": "alex.rivera@example.com",
+    "phone": "555-0101",
+    "message": "Kitchen sink is draining slowly. Could someone come out this week?",
+    "source": "website"
+  },
+  {
+    "name": "Jordan Lee",
+    "email": "jordan.lee@example.org",
+    "phone": "555-0102",
+    "message": "Looking for a quote to replace a water heater.",
+    "source": "contact-form"
+  },
+  {
+    "name": "Casey Morgan",
+    "email": "casey.morgan@example.net",
+    "phone": "",
+    "message": "Do you do weekend call-outs?",
+    "source": "facebook"
+  },
+  {
+    "name": "Taylor Brooks",
+    "email": "taylor.brooks@example.com",
+    "phone": "555-0104",
+    "message": "Small leak under the bathroom vanity.",
+    "source": "website"
+  },
+  {
+    "name": "",
+    "email": "missing-name@example.com",
+    "message": "This one is invalid on purpose (no name) to show the 400 path.",
+    "source": "website"
+  }
+]
