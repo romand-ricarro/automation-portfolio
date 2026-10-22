@@ -1,0 +1,9 @@
+[project]
+name = "ops-request-dashboard"
+version = "1.0.0"
+description = "Small Streamlit request tracker and dashboard with synthetic data."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
